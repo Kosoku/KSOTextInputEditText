@@ -7,8 +7,12 @@
 //
 
 #import "ViewController.h"
+#import <KSOTextInputEditText/KSOTextInputEditTextField.h>
 
 @interface ViewController ()
+
+@property (weak,nonatomic) IBOutlet UITextField *normalTextField;
+@property (weak,nonatomic) IBOutlet KSOTextInputEditTextField *customTextField;
 
 @end
 
