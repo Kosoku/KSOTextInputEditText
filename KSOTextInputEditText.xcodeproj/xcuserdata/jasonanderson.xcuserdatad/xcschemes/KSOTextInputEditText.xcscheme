@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "74C4623D1EA051AA00A5262D"
-               BuildableName = "KSOTextInputEditText-iOS.framework"
+               BuildableName = "KSOTextInputEditText.framework"
                BlueprintName = "KSOTextInputEditText-iOS"
                ReferencedContainer = "container:KSOTextInputEditText.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "74C4623D1EA051AA00A5262D"
-            BuildableName = "KSOTextInputEditText-iOS.framework"
+            BuildableName = "KSOTextInputEditText.framework"
             BlueprintName = "KSOTextInputEditText-iOS"
             ReferencedContainer = "container:KSOTextInputEditText.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "74C4623D1EA051AA00A5262D"
-            BuildableName = "KSOTextInputEditText-iOS.framework"
+            BuildableName = "KSOTextInputEditText.framework"
             BlueprintName = "KSOTextInputEditText-iOS"
             ReferencedContainer = "container:KSOTextInputEditText.xcodeproj">
          </BuildableReference>
