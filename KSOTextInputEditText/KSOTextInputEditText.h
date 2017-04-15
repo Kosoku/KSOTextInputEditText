@@ -16,4 +16,4 @@ FOUNDATION_EXPORT const unsigned char KSOTextInputEditTextVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <KSOTextInputEditText/PublicHeader.h>
 
-
+#import <KSOTextInputEditText/KSOTextInputEditTextField.h>
