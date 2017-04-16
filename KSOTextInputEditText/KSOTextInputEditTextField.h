@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Set and get the secondary color for the component. This is the color used for before the TextField has had text applied.
  
- The default is UIColor.darkGrayColor.
+ The default is UIColor.grayColor.
  */
 @property (strong,nonatomic,null_resettable) UIColor *secondaryColor UI_APPEARANCE_SELECTOR;
 

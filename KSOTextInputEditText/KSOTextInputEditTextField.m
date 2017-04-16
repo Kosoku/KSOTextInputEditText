@@ -128,7 +128,7 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 
 + (UIColor *)defaultSecondaryColor
 {
-    return UIColor.lightGrayColor;
+    return UIColor.grayColor;
 }
 
 + (UIColor *)defaultAccentColor
@@ -181,25 +181,29 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
-    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn animations:^{
+    __weak KSOTextInputEditTextField *weakSelf = self;
+    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        KSOTextInputEditTextField *strongSelf = weakSelf;
         [_accentBorder setFrame:CGRectMake(CGRectGetMinX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, CGRectGetWidth(_border.frame), kBorderHeight)];
         [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
         [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+        [_floatingLabel setTextColor:_accentColor ?: [strongSelf.class defaultAccentColor]];
     } completion:nil];
 }
 
 - (void)_textDidEndEditingNotification:(NSNotification *)notification
 {
-    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut animations:^{
+    __weak KSOTextInputEditTextField *weakSelf = self;
+    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        KSOTextInputEditTextField *strongSelf = weakSelf;
         [_accentBorder setFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, 0, kBorderHeight)];
-    } completion:nil];
-    
-    if (self.text.length == 0) {
-        [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut animations:^{
+        [_floatingLabel setTextColor:_secondaryColor ?: [strongSelf.class defaultSecondaryColor]];
+        
+        if (strongSelf.text.length == 0) {
             [_floatingLabel setTransform:CGAffineTransformIdentity];
-            [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5), CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-        } completion:nil];
-    }
+            [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(strongSelf.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5), CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+        }
+    } completion:nil];
 }
 
 @end
