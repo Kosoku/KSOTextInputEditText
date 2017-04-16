@@ -21,43 +21,43 @@ NS_ASSUME_NONNULL_BEGIN
  KSOTextInputEditTextField is a KDITextField subclass that adds a floating label and styling comparable to the TextInputEditText UI Component found in Android Material Design.
  https://material.io/guidelines/components/text-fields.html#text-fields-field-types
  */
+IB_DESIGNABLE
 @interface KSOTextInputEditTextField : KDITextField
+
+/**
+ Set and get the floating label text.
+ */
+@property (copy,nonatomic,nullable) IBInspectable NSString *label;
 
 /**
  Set and get the primary color for the component. This is the color used for after the TextField has had text applied.
  
  The default is UIColor.blackColor.
  */
-@property (strong,nonatomic,null_resettable) UIColor *primaryColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) IBInspectable UIColor *primaryColor UI_APPEARANCE_SELECTOR;
 
 /**
  Set and get the secondary color for the component. This is the color used for before the TextField has had text applied.
  
  The default is UIColor.grayColor.
  */
-@property (strong,nonatomic,null_resettable) UIColor *secondaryColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) IBInspectable UIColor *secondaryColor UI_APPEARANCE_SELECTOR;
 
 /**
  Set and get the accent color for the component. This is the color used for before when the TextField is selected for text input.
  
  The default is UIColor.blueColor.
  */
-@property (strong,nonatomic,null_resettable) UIColor *accentColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) IBInspectable UIColor *accentColor UI_APPEARANCE_SELECTOR;
 
 /**
  Set and get the disabled color for the component. This is the color used for before when the TextField is disabled.
  
  The default is UIColor.lightGrayColor.
  */
-@property (strong,nonatomic,null_resettable) UIColor *disabledColor UI_APPEARANCE_SELECTOR;
-
-@property (copy,nonatomic,nullable) NSString *floatingPlaceholder;
-@property (copy,nonatomic,nullable) NSAttributedString *floatingAttributedPlaceholder;
+@property (strong,nonatomic,null_resettable) IBInspectable UIColor *disabledColor UI_APPEARANCE_SELECTOR;
 
 - (void)layoutSubviews NS_REQUIRES_SUPER;
-
-@property(copy,nonatomic,nullable) NSString *placeholder __attribute__((unavailable("use floatingPlaceholder instead")));
-@property(copy,nonatomic,nullable) NSAttributedString *attributedPlaceholder __attribute__((unavailable("use floatingAttributedPlaceholder instead")));
 
 @end
 

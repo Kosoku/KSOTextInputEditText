@@ -56,6 +56,11 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     return self;
 }
 
+- (void)prepareForInterfaceBuilder
+{
+    [self _KSOTextInputEditTextFieldInit];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -66,6 +71,7 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 {
     [super setBackgroundColor:UIColor.clearColor];
 }
+
 - (void)setBorderStyle:(UITextBorderStyle)borderStyle
 {
     [super setBorderStyle:UITextBorderStyleNone];
@@ -76,17 +82,6 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [super setTintColor:_accentColor];
 }
 
-@dynamic placeholder;
-@dynamic attributedPlaceholder;
-//- (void)setPlaceholder:(NSString *)placeholder
-//{
-//    if (placeholder.length > 0) {
-//        [self setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:placeholder]];
-//    }
-//
-//    [super setPlaceholder:@""];
-//}
-
 - (void)setEnabled:(BOOL)enabled
 {
     [super setEnabled:enabled];
@@ -95,21 +90,15 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [_border setBackgroundColor:_disabledColor ?: [self.class defaultDisabledColor]];
 }
 
-//- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
-//{
-//    if (attributedPlaceholder.length > 0) {
-//        _attributedPlaceholderString = attributedPlaceholder;
-//        
-//        [_floatingLabel setAttributedText:_attributedPlaceholderString];
-//        [_floatingLabel sizeToFit];
-//        [self setNeedsLayout];
-//    }
-//    
-//    [super setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:@""]];
-//}
-
 #pragma mark *** Public Methods ***
 #pragma mark Properties
+@synthesize label = _label;
+- (void)setLabel:(NSString *)label
+{
+    _label = label;
+    [_floatingLabel setText:label];
+}
+
 @synthesize primaryColor = _primaryColor;
 - (void)setPrimaryColor:(UIColor *)primaryColor
 {
@@ -135,21 +124,6 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 - (void)setDisabledColor:(UIColor *)disabledColor
 {
     _disabledColor = disabledColor ?: [self.class defaultDisabledColor];
-}
-
-@dynamic floatingPlaceholder;
-- (NSString *)floatingPlaceholder {
-    return self.floatingAttributedPlaceholder.string;
-}
-- (void)setFloatingPlaceholder:(NSString *)floatingPlaceholder {
-    [self setFloatingAttributedPlaceholder:[[NSAttributedString alloc] initWithString:floatingPlaceholder ?: @"" attributes:@{NSFontAttributeName: self.floatingLabel.font, NSForegroundColorAttributeName: self.floatingLabel.textColor}]];
-}
-@dynamic floatingAttributedPlaceholder;
-- (NSAttributedString *)floatingAttributedPlaceholder {
-    return self.floatingLabel.attributedText;
-}
-- (void)setFloatingAttributedPlaceholder:(NSAttributedString *)floatingAttributedPlaceholder {
-    [self.floatingLabel setAttributedText:floatingAttributedPlaceholder ?: [[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName: self.floatingLabel.font, NSForegroundColorAttributeName: self.floatingLabel.textColor}]];
 }
 
 #pragma mark *** Private Methods ***
@@ -183,24 +157,18 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];
     
-//    if (self.placeholder.length > 0) {
-//        _attributedPlaceholderString = [[NSAttributedString alloc] initWithString:self.placeholder];
-//        [self setPlaceholder:@""];
-//    }
-//    
-//    if (self.attributedPlaceholder.length > 0) {
-//        _attributedPlaceholderString = self.attributedPlaceholder;
-//        [self setPlaceholder:@""];
-//    }
-    
     [self setFloatingLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
     [_floatingLabel setBackgroundColor:UIColor.clearColor];
-    [_floatingLabel setText:@"Placeholder"];
+    [_floatingLabel setText:_label];
     [_floatingLabel setFont:self.font];
     [_floatingLabel setTextColor:_secondaryColor];
     [_floatingLabel sizeToFit];
     [self addSubview:_floatingLabel];
+    #if TARGET_INTERFACE_BUILDER
+    [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+    #else
     [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+    #endif
     
     [self setBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) + kBorderMargin, CGRectGetWidth(self.bounds), kBorderHeight)]];
     [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
