@@ -70,14 +70,16 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [super setTintColor:_accentColor];
 }
 
-- (void)setPlaceholder:(NSString *)placeholder
-{
-    if (placeholder.length > 0) {
-        [self setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:placeholder]];
-    }
-
-    [super setPlaceholder:@""];
-}
+@dynamic placeholder;
+@dynamic attributedPlaceholder;
+//- (void)setPlaceholder:(NSString *)placeholder
+//{
+//    if (placeholder.length > 0) {
+//        [self setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:placeholder]];
+//    }
+//
+//    [super setPlaceholder:@""];
+//}
 
 - (void)setEnabled:(BOOL)enabled
 {
@@ -87,18 +89,18 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [_border setBackgroundColor:_disabledColor ?: [self.class defaultDisabledColor]];
 }
 
-- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
-{
-    if (attributedPlaceholder.length > 0) {
-        _attributedPlaceholderString = attributedPlaceholder;
-        
-        [_floatingLabel setAttributedText:_attributedPlaceholderString];
-        [_floatingLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-    
-    [super setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:@""]];
-}
+//- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
+//{
+//    if (attributedPlaceholder.length > 0) {
+//        _attributedPlaceholderString = attributedPlaceholder;
+//        
+//        [_floatingLabel setAttributedText:_attributedPlaceholderString];
+//        [_floatingLabel sizeToFit];
+//        [self setNeedsLayout];
+//    }
+//    
+//    [super setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:@""]];
+//}
 
 #pragma mark *** Public Methods ***
 #pragma mark Properties
@@ -159,15 +161,15 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];
     
-    if (self.placeholder.length > 0) {
-        _attributedPlaceholderString = [[NSAttributedString alloc] initWithString:self.placeholder];
-        [self setPlaceholder:@""];
-    }
-    
-    if (self.attributedPlaceholder.length > 0) {
-        _attributedPlaceholderString = self.attributedPlaceholder;
-        [self setPlaceholder:@""];
-    }
+//    if (self.placeholder.length > 0) {
+//        _attributedPlaceholderString = [[NSAttributedString alloc] initWithString:self.placeholder];
+//        [self setPlaceholder:@""];
+//    }
+//    
+//    if (self.attributedPlaceholder.length > 0) {
+//        _attributedPlaceholderString = self.attributedPlaceholder;
+//        [self setPlaceholder:@""];
+//    }
     
     [self setFloatingLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
     [_floatingLabel setBackgroundColor:UIColor.clearColor];
