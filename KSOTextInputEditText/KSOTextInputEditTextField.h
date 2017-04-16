@@ -34,28 +34,28 @@ IB_DESIGNABLE
  
  The default is UIColor.blackColor.
  */
-@property (strong,nonatomic,null_resettable) IBInspectable UIColor *primaryColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) UIColor *primaryColor UI_APPEARANCE_SELECTOR;
 
 /**
  Set and get the secondary color for the component. This is the color used for before the TextField has had text applied.
  
  The default is UIColor.grayColor.
  */
-@property (strong,nonatomic,null_resettable) IBInspectable UIColor *secondaryColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) UIColor *secondaryColor UI_APPEARANCE_SELECTOR;
 
 /**
  Set and get the accent color for the component. This is the color used for before when the TextField is selected for text input.
  
  The default is UIColor.blueColor.
  */
-@property (strong,nonatomic,null_resettable) IBInspectable UIColor *accentColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) UIColor *accentColor UI_APPEARANCE_SELECTOR;
 
 /**
  Set and get the disabled color for the component. This is the color used for before when the TextField is disabled.
  
  The default is UIColor.lightGrayColor.
  */
-@property (strong,nonatomic,null_resettable) IBInspectable UIColor *disabledColor UI_APPEARANCE_SELECTOR;
+@property (strong,nonatomic,null_resettable) UIColor *disabledColor UI_APPEARANCE_SELECTOR;
 
 - (void)layoutSubviews NS_REQUIRES_SUPER;
 
