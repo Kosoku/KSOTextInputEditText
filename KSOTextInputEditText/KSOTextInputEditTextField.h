@@ -53,8 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)layoutSubviews NS_REQUIRES_SUPER;
 
-@property(nullable, nonatomic,copy) NSString *placeholder __attribute__((unavailable("use floatingPlaceholder instead")));
-@property(nullable, nonatomic,copy) NSAttributedString *attributedPlaceholder __attribute__((unavailable("use floatingAttributedPlaceholder instead")));
+@property(copy,nonatomic,nullable) NSString *placeholder __attribute__((unavailable("use floatingPlaceholder instead")));
+@property(copy,nonatomic,nullable) NSAttributedString *attributedPlaceholder __attribute__((unavailable("use floatingAttributedPlaceholder instead")));
 
 @end
 
