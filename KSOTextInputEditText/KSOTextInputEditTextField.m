@@ -56,14 +56,13 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     return self;
 }
 
-- (void)setBorderStyle:(UITextBorderStyle)borderStyle
-{
-    [super setBorderStyle:UITextBorderStyleNone];
-}
-
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:UIColor.clearColor];
+}
+- (void)setBorderStyle:(UITextBorderStyle)borderStyle
+{
+    [super setBorderStyle:UITextBorderStyleNone];
 }
 
 - (void)setTintColor:(UIColor *)tintColor
