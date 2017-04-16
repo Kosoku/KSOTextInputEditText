@@ -137,6 +137,21 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     _disabledColor = disabledColor ?: [self.class defaultDisabledColor];
 }
 
+@dynamic floatingPlaceholder;
+- (NSString *)floatingPlaceholder {
+    return self.floatingAttributedPlaceholder.string;
+}
+- (void)setFloatingPlaceholder:(NSString *)floatingPlaceholder {
+    [self setFloatingAttributedPlaceholder:[[NSAttributedString alloc] initWithString:floatingPlaceholder ?: @"" attributes:@{NSFontAttributeName: self.floatingLabel.font, NSForegroundColorAttributeName: self.floatingLabel.textColor}]];
+}
+@dynamic floatingAttributedPlaceholder;
+- (NSAttributedString *)floatingAttributedPlaceholder {
+    return self.floatingLabel.attributedText;
+}
+- (void)setFloatingAttributedPlaceholder:(NSAttributedString *)floatingAttributedPlaceholder {
+    [self.floatingLabel setAttributedText:floatingAttributedPlaceholder ?: [[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName: self.floatingLabel.font, NSForegroundColorAttributeName: self.floatingLabel.textColor}]];
+}
+
 #pragma mark *** Private Methods ***
 + (UIColor *)defaultPrimaryColor
 {
@@ -161,6 +176,7 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 - (void)_KSOTextInputEditTextFieldInit
 {
     _accentColor = [self defaultAccentColor];
+    _secondaryColor = [self.class defaultSecondaryColor];
     
     [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin, 0, kBorderMargin, 0)];
     
@@ -179,8 +195,9 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     
     [self setFloatingLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
     [_floatingLabel setBackgroundColor:UIColor.clearColor];
-    [_floatingLabel setAttributedText:_attributedPlaceholderString];
+    [_floatingLabel setText:@"Placeholder"];
     [_floatingLabel setFont:self.font];
+    [_floatingLabel setTextColor:_secondaryColor];
     [_floatingLabel sizeToFit];
     [self addSubview:_floatingLabel];
     [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];

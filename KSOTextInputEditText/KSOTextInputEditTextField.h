@@ -51,6 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (strong,nonatomic,null_resettable) UIColor *disabledColor UI_APPEARANCE_SELECTOR;
 
+@property (copy,nonatomic,nullable) NSString *floatingPlaceholder;
+@property (copy,nonatomic,nullable) NSAttributedString *floatingAttributedPlaceholder;
+
 - (void)layoutSubviews NS_REQUIRES_SUPER;
 
 @property(copy,nonatomic,nullable) NSString *placeholder __attribute__((unavailable("use floatingPlaceholder instead")));
