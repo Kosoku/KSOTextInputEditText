@@ -119,6 +119,8 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 {
     _accentColor = accentColor ?: [self defaultAccentColor];
     [self setTintColor:accentColor];
+    [self.accentBorder setBackgroundColor:_accentColor];
+    [self.floatingLabel setTextColor:_accentColor];
 }
 
 @synthesize disabledColor = _disabledColor;
