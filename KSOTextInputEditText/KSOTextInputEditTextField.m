@@ -158,10 +158,6 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];
     
-    //override possible appearance proxy settings for UITextField with default values
-    [[KSOTextInputEditTextField appearance] setBorderStyle:UITextBorderStyleNone];
-    [[KSOTextInputEditTextField appearance] setBackgroundColor:UIColor.clearColor];
-    
     if (self.placeholder.length > 0) {
         _attributedPlaceholderString = [[NSAttributedString alloc] initWithString:self.placeholder];
         [self setPlaceholder:@""];
