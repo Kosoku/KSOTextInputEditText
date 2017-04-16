@@ -56,6 +56,12 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    // layout stuff
+}
+
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:UIColor.clearColor];
