@@ -164,19 +164,22 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [_floatingLabel setTextColor:_secondaryColor];
     [_floatingLabel sizeToFit];
     [self addSubview:_floatingLabel];
-    #if TARGET_INTERFACE_BUILDER
-    [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-    #else
-    [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-    #endif
     
-    [self setBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) + kBorderMargin, CGRectGetWidth(self.bounds), kBorderHeight)]];
+    [self setBorder:[[UIView alloc] initWithFrame:CGRectZero]];
     [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
     [self addSubview:_border];
     
     [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMinY(_border.frame), 0, kBorderHeight)]];
     [_accentBorder setBackgroundColor:_accentColor];
     [self addSubview:_accentBorder];
+    
+#if TARGET_INTERFACE_BUILDER
+    [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
+#else
+    [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) + kBorderMargin, CGRectGetWidth(self.bounds), kBorderHeight)];
+#endif
 }
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
