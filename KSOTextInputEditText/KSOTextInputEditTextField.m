@@ -118,7 +118,7 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 @synthesize accentColor = _accentColor;
 - (void)setAccentColor:(UIColor *)accentColor
 {
-    _accentColor = accentColor ?: [self.class defaultAccentColor];
+    _accentColor = accentColor ?: [self defaultAccentColor];
     [self setTintColor:accentColor];
 }
 
@@ -139,9 +139,9 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     return UIColor.grayColor;
 }
 
-+ (UIColor *)defaultAccentColor
+- (UIColor *)defaultAccentColor
 {
-    return UIColor.blueColor;
+    return self.tintColor;
 }
 
 + (UIColor *)defaultDisabledColor
@@ -151,6 +151,8 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
+    _accentColor = [self defaultAccentColor];
+    
     [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin, 0, kBorderMargin, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
@@ -183,7 +185,7 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [self addSubview:_border];
     
     [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMinY(_border.frame), 0, kBorderHeight)]];
-    [_accentBorder setBackgroundColor:_accentColor ?: [self.class defaultAccentColor]];
+    [_accentBorder setBackgroundColor:_accentColor];
     [self addSubview:_accentBorder];
 }
 
