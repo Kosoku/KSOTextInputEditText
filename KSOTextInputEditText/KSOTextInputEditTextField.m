@@ -16,29 +16,29 @@
 
 #import "KSOTextInputEditTextField.h"
 
+static const CGFloat kBorderHeight = 2.0;
+static const CGFloat kBorderTopMargin = 8.0;
+static const CGFloat kBorderBottomMargin = 8.0;
+static const CGFloat kFloatingLabelTopMargin = 16.0;
+static const CGFloat kFloatingLabelBottomMargin = 8.0;
+
 @interface KSOTextInputEditTextField ()
 
+@property (strong,nonatomic) NSAttributedString *attributedPlaceholderString;
 @property (strong,nonatomic) UILabel *floatingLabel;
+@property (strong,nonatomic) UIView *border;
+@property (strong,nonatomic) UIView *accentBorder;
 
 @end
 
 @implementation KSOTextInputEditTextField
 
-- (void)_KSOTextInputEditTextFieldInit
+#pragma mark *** Subclass Overrides ***
+- (void)dealloc
 {
-    [self setPrimaryColor:UIColor.blackColor];
-    [self setSecondaryColor:UIColor.darkGrayColor];
-    [self setAccentColor:UIColor.blueColor];
-    [self setDisabledColor:UIColor.lightGrayColor];
-    
-    //override possible appearance proxy settings for UITextField with default values
-    [[KSOTextInputEditTextField appearance] setBorderStyle:UITextBorderStyleNone];
-    [[KSOTextInputEditTextField appearance] setBackgroundColor:UIColor.clearColor];
-    
-    [self setTintColor:_accentColor];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark *** Subclass Overrides ***
 - (instancetype)initWithFrame:(CGRect)aRect
 {
     if ((self = [super initWithFrame:aRect])) {
@@ -53,6 +53,17 @@
         [self _KSOTextInputEditTextFieldInit];
     }
     return self;
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    [_floatingLabel setFrame:self.bounds];
+    [self bringSubviewToFront:_floatingLabel];
+    
+    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - 2.0, CGRectGetWidth(self.bounds), 1.0)];
+    [self bringSubviewToFront:_border];
 }
 
 - (void)setBorderStyle:(UITextBorderStyle)borderStyle
@@ -72,33 +83,120 @@
 
 - (void)setPlaceholder:(NSString *)placeholder
 {
-    [super setPlaceholder:placeholder];
+    if (placeholder.length > 0) {
+        [self setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:placeholder]];
+    }
+
+    [super setPlaceholder:@""];
+}
+
+- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
+{
+    if (attributedPlaceholder.length > 0) {
+        _attributedPlaceholderString = attributedPlaceholder;
+        
+        [_floatingLabel setAttributedText:_attributedPlaceholderString];
+        [_floatingLabel sizeToFit];
+        [self setNeedsLayout];
+    }
     
-    [_floatingLabel setText:placeholder];
+    [super setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:@""]];
 }
 
 #pragma mark *** Public Methods ***
 #pragma mark Properties
+@synthesize primaryColor = _primaryColor;
 - (void)setPrimaryColor:(UIColor *)primaryColor
 {
-    _primaryColor = primaryColor;
+    _primaryColor = primaryColor ?: [self.class defaultPrimaryColor];
 }
 
+@synthesize secondaryColor = _secondaryColor;
 - (void)setSecondaryColor:(UIColor *)secondaryColor
 {
-    _secondaryColor = secondaryColor;
+    _secondaryColor = secondaryColor ?: [self.class defaultSecondaryColor];
 }
 
+@synthesize accentColor = _accentColor;
 - (void)setAccentColor:(UIColor *)accentColor
 {
-    _accentColor = accentColor;
-    
-    [self setTintColor:_accentColor];
+    _accentColor = accentColor ?: [self.class defaultAccentColor];
+    [self setTintColor:accentColor];
 }
 
+@synthesize disabledColor = _disabledColor;
 - (void)setDisabledColor:(UIColor *)disabledColor
 {
-    _disabledColor = disabledColor;
+    _disabledColor = disabledColor ?: [self.class defaultDisabledColor];
+}
+
+#pragma mark *** Private Methods ***
++ (UIColor *)defaultPrimaryColor
+{
+    return UIColor.blackColor;
+}
+
++ (UIColor *)defaultSecondaryColor
+{
+    return UIColor.darkGrayColor;
+}
+
++ (UIColor *)defaultAccentColor
+{
+    return UIColor.blueColor;
+}
+
++ (UIColor *)defaultDisabledColor
+{
+    return UIColor.lightGrayColor;
+}
+
+- (void)_KSOTextInputEditTextFieldInit
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];
+    
+    //override possible appearance proxy settings for UITextField with default values
+    [[KSOTextInputEditTextField appearance] setBorderStyle:UITextBorderStyleNone];
+    [[KSOTextInputEditTextField appearance] setBackgroundColor:UIColor.clearColor];
+    
+    if (self.placeholder.length > 0) {
+        _attributedPlaceholderString = [[NSAttributedString alloc] initWithString:self.placeholder];
+        [self setPlaceholder:@""];
+    }
+    
+    if (self.attributedPlaceholder.length > 0) {
+        _attributedPlaceholderString = self.attributedPlaceholder;
+        [self setPlaceholder:@""];
+    }
+    
+    [self setFloatingLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
+    [_floatingLabel setBackgroundColor:UIColor.clearColor];
+    [_floatingLabel setAttributedText:_attributedPlaceholderString];
+    [_floatingLabel sizeToFit];
+    [self addSubview:_floatingLabel];
+    
+    [self setBorder:[[UIView alloc] initWithFrame:CGRectZero]];
+    [_border setBackgroundColor:_secondaryColor];
+    [self addSubview:_border];
+    
+    [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectZero]];
+    [_accentBorder setBackgroundColor:_accentColor];
+    [self addSubview:_accentBorder];
+}
+
+- (void)_textDidBeginEditingNotification:(NSNotification *)notification
+{
+    //move above edit area
+    [self.floatingLabel setTextAlignment:NSTextAlignmentRight];
+}
+
+- (void)_textDidEndEditingNotification:(NSNotification *)notification
+{
+    if (self.text.length == 0) {
+        //return to original location
+        [self.floatingLabel setTextAlignment:NSTextAlignmentLeft];
+    }
 }
 
 @end
