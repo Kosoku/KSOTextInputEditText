@@ -62,7 +62,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [_floatingLabel setFrame:self.bounds];
     [self bringSubviewToFront:_floatingLabel];
     
-    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - 2.0, CGRectGetWidth(self.bounds), 1.0)];
+    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
     [self bringSubviewToFront:_border];
 }
 
