@@ -15,12 +15,13 @@
 
 
 #import "KSOTextInputEditTextField.h"
+#import <Stanley/KSTGeometryFunctions.h>
 
+static const CGFloat kFloatingLabelScale = 0.7;
+static const CGFloat kAnimationDuration = 0.2;
 static const CGFloat kBorderHeight = 2.0;
-static const CGFloat kBorderTopMargin = 8.0;
-static const CGFloat kBorderBottomMargin = 8.0;
+static const CGFloat kBorderMargin = 8.0;
 static const CGFloat kFloatingLabelTopMargin = 16.0;
-static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 @interface KSOTextInputEditTextField ()
 
@@ -53,17 +54,6 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
         [self _KSOTextInputEditTextFieldInit];
     }
     return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    [_floatingLabel setFrame:self.bounds];
-    [self bringSubviewToFront:_floatingLabel];
-    
-    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
-    [self bringSubviewToFront:_border];
 }
 
 - (void)setBorderStyle:(UITextBorderStyle)borderStyle
@@ -138,7 +128,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 + (UIColor *)defaultSecondaryColor
 {
-    return UIColor.darkGrayColor;
+    return UIColor.lightGrayColor;
 }
 
 + (UIColor *)defaultAccentColor
@@ -153,6 +143,8 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
+    [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin, 0, kBorderMargin, 0)];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];
     
@@ -173,29 +165,40 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self setFloatingLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
     [_floatingLabel setBackgroundColor:UIColor.clearColor];
     [_floatingLabel setAttributedText:_attributedPlaceholderString];
+    [_floatingLabel setFont:self.font];
     [_floatingLabel sizeToFit];
     [self addSubview:_floatingLabel];
+    [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
     
-    [self setBorder:[[UIView alloc] initWithFrame:CGRectZero]];
-    [_border setBackgroundColor:_secondaryColor];
+    [self setBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) + kBorderMargin, CGRectGetWidth(self.bounds), kBorderHeight)]];
+    [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
     [self addSubview:_border];
     
-    [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectZero]];
-    [_accentBorder setBackgroundColor:_accentColor];
+    [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMinY(_border.frame), 0, kBorderHeight)]];
+    [_accentBorder setBackgroundColor:_accentColor ?: [self.class defaultAccentColor]];
     [self addSubview:_accentBorder];
 }
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
-    //move above edit area
-    [self.floatingLabel setTextAlignment:NSTextAlignmentRight];
+    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseIn animations:^{
+        [_accentBorder setFrame:CGRectMake(CGRectGetMinX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, CGRectGetWidth(_border.frame), kBorderHeight)];
+        [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
+        [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+    } completion:nil];
 }
 
 - (void)_textDidEndEditingNotification:(NSNotification *)notification
 {
+    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut animations:^{
+        [_accentBorder setFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, 0, kBorderHeight)];
+    } completion:nil];
+    
     if (self.text.length == 0) {
-        //return to original location
-        [self.floatingLabel setTextAlignment:NSTextAlignmentLeft];
+        [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseOut animations:^{
+            [_floatingLabel setTransform:CGAffineTransformIdentity];
+            [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5), CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+        } completion:nil];
     }
 }
 
