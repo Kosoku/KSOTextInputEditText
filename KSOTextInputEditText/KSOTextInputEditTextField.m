@@ -80,6 +80,14 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [super setPlaceholder:@""];
 }
 
+- (void)setEnabled:(BOOL)enabled
+{
+    [super setEnabled:enabled];
+    
+    [_floatingLabel setTextColor:_disabledColor ?: [self.class defaultDisabledColor]];
+    [_border setBackgroundColor:_disabledColor ?: [self.class defaultDisabledColor]];
+}
+
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
 {
     if (attributedPlaceholder.length > 0) {
@@ -197,11 +205,15 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         KSOTextInputEditTextField *strongSelf = weakSelf;
         [_accentBorder setFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, 0, kBorderHeight)];
-        [_floatingLabel setTextColor:_secondaryColor ?: [strongSelf.class defaultSecondaryColor]];
         
         if (strongSelf.text.length == 0) {
             [_floatingLabel setTransform:CGAffineTransformIdentity];
             [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(strongSelf.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5), CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+            [_floatingLabel setTextColor:_secondaryColor ?: [strongSelf.class defaultSecondaryColor]];
+            [_border setBackgroundColor:_secondaryColor ?: [strongSelf.class defaultSecondaryColor]];
+        } else {
+            [_floatingLabel setTextColor:_primaryColor ?: [strongSelf.class defaultPrimaryColor]];
+            [_border setBackgroundColor:_primaryColor ?: [strongSelf.class defaultPrimaryColor]];
         }
     } completion:nil];
 }
