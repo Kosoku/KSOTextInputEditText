@@ -30,6 +30,8 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 @property (strong,nonatomic) UIView *border;
 @property (strong,nonatomic) UIView *accentBorder;
 
+@property (assign,nonatomic,getter=isAnimating) BOOL animating;
+
 @end
 
 @implementation KSOTextInputEditTextField
@@ -61,10 +63,24 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [self _KSOTextInputEditTextFieldInit];
 }
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [_floatingLabel setText:self.label];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    // layout stuff
+    [_floatingLabel sizeToFit];
+    
+    if (!self.isAnimating) {
+        if (self.text.length == 0) {
+            [_floatingLabel setFrame:CGRectMake(CGRectGetMinX(_floatingLabel.frame), CGRectGetMinY(_floatingLabel.frame) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+        }
+        [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
+    }
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
@@ -92,13 +108,6 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 
 #pragma mark *** Public Methods ***
 #pragma mark Properties
-@synthesize label = _label;
-- (void)setLabel:(NSString *)label
-{
-    _label = label;
-    [_floatingLabel setText:label];
-}
-
 @synthesize primaryColor = _primaryColor;
 - (void)setPrimaryColor:(UIColor *)primaryColor
 {
@@ -149,6 +158,8 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
+    [self setAnimating:NO];
+    
     _accentColor = [self defaultAccentColor];
     _secondaryColor = [self.class defaultSecondaryColor];
     
@@ -176,41 +187,41 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 #if TARGET_INTERFACE_BUILDER
     [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
     [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
-#else
-    [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(self.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) + kBorderMargin, CGRectGetWidth(self.bounds), kBorderHeight)];
 #endif
 }
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
-    __weak KSOTextInputEditTextField *weakSelf = self;
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        KSOTextInputEditTextField *strongSelf = weakSelf;
-        [_accentBorder setFrame:CGRectMake(CGRectGetMinX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, CGRectGetWidth(_border.frame), kBorderHeight)];
+        [self setAnimating:YES];
+//        [_accentBorder setFrame:CGRectMake(CGRectGetMinX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, CGRectGetWidth(_border.frame), kBorderHeight)];
         [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
         [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-        [_floatingLabel setTextColor:_accentColor ?: [strongSelf.class defaultAccentColor]];
-    } completion:nil];
+        [_floatingLabel setTextColor:_accentColor ?: [self.class defaultAccentColor]];
+    } completion:^(BOOL finished) {
+        [self setAnimating:NO];
+    }];
 }
 
 - (void)_textDidEndEditingNotification:(NSNotification *)notification
 {
-    __weak KSOTextInputEditTextField *weakSelf = self;
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        KSOTextInputEditTextField *strongSelf = weakSelf;
-        [_accentBorder setFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, 0, kBorderHeight)];
+        [self setAnimating:YES];
+//        [_accentBorder setFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, 0, kBorderHeight)];
         
-        if (strongSelf.text.length == 0) {
+        if (self.text.length == 0) {
             [_floatingLabel setTransform:CGAffineTransformIdentity];
-            [_floatingLabel setFrame:CGRectMake(0, ((CGRectGetHeight(strongSelf.bounds) - CGRectGetHeight(_floatingLabel.frame)) * 0.5), CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-            [_floatingLabel setTextColor:_secondaryColor ?: [strongSelf.class defaultSecondaryColor]];
-            [_border setBackgroundColor:_secondaryColor ?: [strongSelf.class defaultSecondaryColor]];
+            [_floatingLabel setFrame:CGRectMake(CGRectGetMinX(_floatingLabel.frame), CGRectGetMinY(_floatingLabel.frame) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
+            
+            [_floatingLabel setTextColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
+            [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
         } else {
-            [_floatingLabel setTextColor:_primaryColor ?: [strongSelf.class defaultPrimaryColor]];
-            [_border setBackgroundColor:_primaryColor ?: [strongSelf.class defaultPrimaryColor]];
+            [_floatingLabel setTextColor:_primaryColor ?: [self.class defaultPrimaryColor]];
+            [_border setBackgroundColor:_primaryColor ?: [self.class defaultPrimaryColor]];
         }
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        [self setAnimating:NO];
+    }];
 }
 
 @end
