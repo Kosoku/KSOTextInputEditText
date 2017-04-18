@@ -30,7 +30,8 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 @property (strong,nonatomic) UIView *border;
 @property (strong,nonatomic) UIView *accentBorder;
 
-@property (assign,nonatomic,getter=isAnimating) BOOL animating;
+@property (strong,nonatomic) NSLayoutConstraint *accentBorderZeroWidth;
+@property (strong,nonatomic) NSLayoutConstraint *accentBorderFullWidth;
 
 @end
 
@@ -74,13 +75,6 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [super layoutSubviews];
     
     [_floatingLabel sizeToFit];
-    
-    if (!self.isAnimating) {
-        if (self.text.length == 0) {
-            [_floatingLabel setFrame:CGRectMake(CGRectGetMinX(_floatingLabel.frame), CGRectGetMinY(_floatingLabel.frame) + kBorderMargin, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-        }
-        [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
-    }
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
@@ -158,10 +152,9 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
-    [self setAnimating:NO];
-    
     _accentColor = [self defaultAccentColor];
     _secondaryColor = [self.class defaultSecondaryColor];
+
     
     [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin, 0, kBorderMargin, 0)];
     
@@ -177,37 +170,54 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
     [self addSubview:_floatingLabel];
     
     [self setBorder:[[UIView alloc] initWithFrame:CGRectZero]];
+    [_border setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_border addConstraint:[NSLayoutConstraint constraintWithItem:_border attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kBorderHeight]];
     [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
     [self addSubview:_border];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[border]|" options:0 metrics:nil views:@{@"border":_border}]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[border]|" options:0 metrics:nil views:@{@"border":_border}]];
     
-    [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMinY(_border.frame), 0, kBorderHeight)]];
+    [self setAccentBorder:[[UIView alloc] initWithFrame:CGRectZero]];
+    
+    [self setAccentBorderFullWidth:[NSLayoutConstraint constraintWithItem:_accentBorder attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_border attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+    [self setAccentBorderZeroWidth:[NSLayoutConstraint constraintWithItem:_accentBorder attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0]];
+    
+    [_accentBorder setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_accentBorder addConstraint:[NSLayoutConstraint constraintWithItem:_accentBorder attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kBorderHeight]];
+    [_accentBorder addConstraint:_accentBorderZeroWidth];
     [_accentBorder setBackgroundColor:_accentColor];
     [self addSubview:_accentBorder];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_accentBorder attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_border attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[border]|" options:0 metrics:nil views:@{@"border":_accentBorder}]];
     
 #if TARGET_INTERFACE_BUILDER
     [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
-    [_border setFrame:CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds) - kBorderHeight, CGRectGetWidth(self.bounds), kBorderHeight)];
 #endif
 }
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
+    [self layoutIfNeeded];
+    [_accentBorder removeConstraint:_accentBorderZeroWidth];
+    [self addConstraint:_accentBorderFullWidth];
+    
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self setAnimating:YES];
-//        [_accentBorder setFrame:CGRectMake(CGRectGetMinX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, CGRectGetWidth(_border.frame), kBorderHeight)];
+        [self layoutIfNeeded];
         [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
         [_floatingLabel setFrame:CGRectMake(0, 0, CGRectGetWidth(_floatingLabel.frame), CGRectGetHeight(_floatingLabel.frame))];
         [_floatingLabel setTextColor:_accentColor ?: [self.class defaultAccentColor]];
     } completion:^(BOOL finished) {
-        [self setAnimating:NO];
     }];
 }
 
 - (void)_textDidEndEditingNotification:(NSNotification *)notification
 {
+    [self layoutIfNeeded];
+    [self removeConstraint:_accentBorderFullWidth];
+    [_accentBorder addConstraint:_accentBorderZeroWidth];
+    
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        [self setAnimating:YES];
-//        [_accentBorder setFrame:CGRectMake(CGRectGetMidX(_border.frame), CGRectGetMaxY(_border.frame) - kBorderHeight, 0, kBorderHeight)];
+        [self layoutIfNeeded];
         
         if (self.text.length == 0) {
             [_floatingLabel setTransform:CGAffineTransformIdentity];
@@ -220,7 +230,6 @@ static const CGFloat kFloatingLabelTopMargin = 16.0;
             [_border setBackgroundColor:_primaryColor ?: [self.class defaultPrimaryColor]];
         }
     } completion:^(BOOL finished) {
-        [self setAnimating:NO];
     }];
 }
 
