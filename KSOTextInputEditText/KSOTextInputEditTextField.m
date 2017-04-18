@@ -233,8 +233,10 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self layoutIfNeeded];
     [self removeConstraint:_accentBorderFullWidth];
     [_accentBorder addConstraint:_accentBorderZeroWidth];
-    [self removeConstraints:_floatingLabelTopConstraint];
-    [self addConstraints:_floatingLabelBottomConstraint];
+    if (self.text.length == 0) {
+        [self removeConstraints:_floatingLabelTopConstraint];
+        [self addConstraints:_floatingLabelBottomConstraint];
+    }
     
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         if (self.text.length == 0) {
