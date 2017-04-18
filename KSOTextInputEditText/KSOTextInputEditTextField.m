@@ -69,19 +69,6 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self _KSOTextInputEditTextFieldInit];
 }
 
-- (void)layoutSubviews
-{
-    static CGPoint center = {0,0};
-    
-    [super layoutSubviews];
-    if (CGPointEqualToPoint(center, CGPointZero)) {
-        center = [self.floatingLabel center];
-    } else {
-        self.floatingLabel.center = center;
-    }
-    
-}
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -92,6 +79,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     
     [_floatingLabel setText:self.label];
     [_floatingLabel sizeToFit];
+    
     [self layoutIfNeeded];
 }
 
@@ -263,8 +251,10 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self layoutIfNeeded];
     [self removeConstraint:_accentBorderFullWidth];
     [_accentBorder addConstraint:_accentBorderZeroWidth];
-    [self removeConstraints:_floatingLabelTopConstraint];
-    [self addConstraints:_floatingLabelBottomConstraint];
+    if (self.text.length == 0) {
+        [self removeConstraints:_floatingLabelTopConstraint];
+        [self addConstraints:_floatingLabelBottomConstraint];
+    }
     
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         if (self.text.length == 0) {
