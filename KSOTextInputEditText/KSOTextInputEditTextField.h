@@ -57,8 +57,6 @@ IB_DESIGNABLE
  */
 @property (strong,nonatomic,null_resettable) UIColor *disabledColor UI_APPEARANCE_SELECTOR;
 
-- (void)layoutSubviews NS_REQUIRES_SUPER;
-
 @end
 
 NS_ASSUME_NONNULL_END
