@@ -66,25 +66,13 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self _KSOTextInputEditTextFieldInit];
 }
 
-- (void)layoutSubviews
-{
-    static CGPoint center = {0,0};
-    
-    [super layoutSubviews];
-    if (CGPointEqualToPoint(center, CGPointZero)) {
-        center = [self.floatingLabel center];
-    } else {
-        self.floatingLabel.center = center;
-    }
-    
-}
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
     [_floatingLabel setText:self.label];
     [_floatingLabel sizeToFit];
+    
     [self layoutIfNeeded];
 }
 
