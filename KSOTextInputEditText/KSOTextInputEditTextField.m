@@ -15,6 +15,7 @@
 
 
 #import "KSOTextInputEditTextField.h"
+#import "KSOPrivateContainerView.h"
 
 static const CGFloat kFloatingLabelScale = 0.7;
 static const CGFloat kAnimationDuration = 0.2;
@@ -25,6 +26,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 @interface KSOTextInputEditTextField ()
 
 @property (strong,nonatomic) UILabel *floatingLabel;
+@property (strong,nonatomic) KSOPrivateContainerView *floatingLabelContainer;
 @property (strong,nonatomic) UIView *border;
 @property (strong,nonatomic) UIView *accentBorder;
 
@@ -62,6 +64,19 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 - (void)prepareForInterfaceBuilder
 {
     [self _KSOTextInputEditTextFieldInit];
+}
+
+- (void)layoutSubviews
+{
+    static CGPoint center = {0,0};
+    
+    [super layoutSubviews];
+    if (CGPointEqualToPoint(center, CGPointZero)) {
+        center = [self.floatingLabel center];
+    } else {
+        self.floatingLabel.center = center;
+    }
+    
 }
 
 - (void)awakeFromNib
@@ -151,30 +166,27 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     _accentColor = [self defaultAccentColor];
     _secondaryColor = [self.class defaultSecondaryColor];
     
-    [self.layer setBorderColor:UIColor.blackColor.CGColor];
-    [self.layer setBorderWidth:1.0];
-    
     [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin, 0, kFloatingLabelBottomMargin, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];
     
-    [self setFloatingLabel:[[UILabel alloc] initWithFrame:CGRectZero]];
-    [_floatingLabel.layer setBorderColor:UIColor.redColor.CGColor];
-    [_floatingLabel.layer setBorderWidth:1.0];
+    [self setFloatingLabelContainer:[[KSOPrivateContainerView alloc] initWithFrame:CGRectZero]];
     
-    [_floatingLabel setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [_floatingLabelContainer setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self addSubview:_floatingLabelContainer];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[floatingLabel]" options:0 metrics:nil views:@{@"floatingLabel":_floatingLabelContainer}]];
+    
+    [self setFloatingLabelBottomConstraint:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[floatingLabel]-bottomMargin-|" options:0 metrics:@{@"bottomMargin":@(kFloatingLabelBottomMargin)} views:@{@"floatingLabel":_floatingLabelContainer}]];
+    [self setFloatingLabelTopConstraint:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[floatingLabel]" options:0 metrics:nil views:@{@"floatingLabel":_floatingLabelContainer}]];
+    [self addConstraints:_floatingLabelBottomConstraint];
+    
+    [self setFloatingLabel:_floatingLabelContainer.label];
     [_floatingLabel setBackgroundColor:UIColor.clearColor];
     [_floatingLabel setText:_label];
     [_floatingLabel setFont:self.font];
     [_floatingLabel setTextColor:_secondaryColor];
     [_floatingLabel sizeToFit];
-    [self addSubview:_floatingLabel];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[floatingLabel]" options:0 metrics:nil views:@{@"floatingLabel":_floatingLabel}]];
-    
-    [self setFloatingLabelBottomConstraint:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[floatingLabel]-bottomMargin-|" options:0 metrics:@{@"bottomMargin":@(kFloatingLabelBottomMargin)} views:@{@"floatingLabel":_floatingLabel}]];
-    [self setFloatingLabelTopConstraint:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[floatingLabel]" options:0 metrics:nil views:@{@"floatingLabel":_floatingLabel}]];
-    [self addConstraints:_floatingLabelBottomConstraint];
     
     [self setBorder:[[UIView alloc] initWithFrame:CGRectZero]];
     [_border setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -206,11 +218,11 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self addConstraints:_floatingLabelTopConstraint];
     
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        CGAffineTransform t = CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale);
-        [_floatingLabel setTransform:CGAffineTransformTranslate(t, 0, 0)];
+        [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
         [_floatingLabel setTextColor:_accentColor ?: [self.class defaultAccentColor]];
         
         [self layoutIfNeeded];
+        [_floatingLabelContainer setNeedsLayout];
     } completion:^(BOOL finished) {
         [self layoutIfNeeded];
     }];
@@ -236,6 +248,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
         }
         
         [self layoutIfNeeded];
+        [_floatingLabelContainer setNeedsLayout];
     } completion:^(BOOL finished) {
         [self layoutIfNeeded];
     }];

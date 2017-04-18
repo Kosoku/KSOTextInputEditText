@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7434ABB01EA1A493007679BC /* KSOTextInputEditTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 7434ABAE1EA1A493007679BC /* KSOTextInputEditTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7434ABB11EA1A493007679BC /* KSOTextInputEditTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7434ABAF1EA1A493007679BC /* KSOTextInputEditTextField.m */; };
+		7498F50D1EA6B0170072C43A /* KSOPrivateContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7498F50B1EA6B0170072C43A /* KSOPrivateContainerView.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		7498F50E1EA6B0170072C43A /* KSOPrivateContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7498F50C1EA6B0170072C43A /* KSOPrivateContainerView.m */; };
 		74C462431EA051AA00A5262D /* KSOTextInputEditText.h in Headers */ = {isa = PBXBuildFile; fileRef = 74C462411EA051AA00A5262D /* KSOTextInputEditText.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		74C4624D1EA056EB00A5262D /* Ditko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4624B1EA056EB00A5262D /* Ditko.framework */; };
 		74C4624E1EA056EB00A5262D /* Stanley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4624C1EA056EB00A5262D /* Stanley.framework */; };
@@ -55,6 +57,8 @@
 /* Begin PBXFileReference section */
 		7434ABAE1EA1A493007679BC /* KSOTextInputEditTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSOTextInputEditTextField.h; sourceTree = "<group>"; };
 		7434ABAF1EA1A493007679BC /* KSOTextInputEditTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSOTextInputEditTextField.m; sourceTree = "<group>"; };
+		7498F50B1EA6B0170072C43A /* KSOPrivateContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSOPrivateContainerView.h; sourceTree = "<group>"; };
+		7498F50C1EA6B0170072C43A /* KSOPrivateContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSOPrivateContainerView.m; sourceTree = "<group>"; };
 		74C4623E1EA051AA00A5262D /* KSOTextInputEditText.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KSOTextInputEditText.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		74C462411EA051AA00A5262D /* KSOTextInputEditText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSOTextInputEditText.h; sourceTree = "<group>"; };
 		74C462421EA051AA00A5262D /* KSOTextInputEditText-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KSOTextInputEditText-iOS-Info.plist"; sourceTree = "<group>"; };
@@ -98,6 +102,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7498F50A1EA6B0080072C43A /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				7498F50B1EA6B0170072C43A /* KSOPrivateContainerView.h */,
+				7498F50C1EA6B0170072C43A /* KSOPrivateContainerView.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
 		74C462321EA0517700A5262D = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +152,7 @@
 		74C462491EA0528F00A5262D /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				7498F50A1EA6B0080072C43A /* Private */,
 				7434ABAE1EA1A493007679BC /* KSOTextInputEditTextField.h */,
 				7434ABAF1EA1A493007679BC /* KSOTextInputEditTextField.m */,
 			);
@@ -189,6 +203,7 @@
 			files = (
 				7434ABB01EA1A493007679BC /* KSOTextInputEditTextField.h in Headers */,
 				74C462431EA051AA00A5262D /* KSOTextInputEditText.h in Headers */,
+				7498F50D1EA6B0170072C43A /* KSOPrivateContainerView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7498F50E1EA6B0170072C43A /* KSOPrivateContainerView.m in Sources */,
 				7434ABB11EA1A493007679BC /* KSOTextInputEditTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
