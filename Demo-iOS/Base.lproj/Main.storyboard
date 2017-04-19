@@ -34,7 +34,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="label" value="Test"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="label" value="Label"/>
                                 </userDefinedRuntimeAttributes>
                             </textField>
                         </subviews>

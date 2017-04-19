@@ -35,8 +35,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 @property (strong,nonatomic) NSLayoutConstraint *accentBorderZeroWidth;
 @property (strong,nonatomic) NSLayoutConstraint *accentBorderFullWidth;
 
-@property (copy,nonatomic) NSAttributedString *savedAttributedPlaceholder;
-@property (copy,nonatomic) NSAttributedString *actualAttributedPlaceholder;
+@property (copy,nonatomic) NSAttributedString *cachedAttributedPlaceholder;
 
 @end
 
@@ -106,18 +105,21 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [_border setBackgroundColor:_disabledColor ?: [self.class defaultDisabledColor]];
 }
 
-- (void)setPlaceholder:(NSString *)placeholder {
+- (void)setPlaceholder:(NSString *)placeholder
+{
     [self setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:placeholder ?: @""]];
 }
-- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder {
-    [self setActualAttributedPlaceholder:attributedPlaceholder];
+
+- (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
+{
+    [self setCachedAttributedPlaceholder:attributedPlaceholder];
     
     if (self.isEditing) {
         [super setAttributedPlaceholder:attributedPlaceholder];
-    }
-    else {
+    } else {
         [super setAttributedPlaceholder:nil];
     }
+
 }
 
 #pragma mark *** Public Methods ***
@@ -220,9 +222,6 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
-    [self setSavedAttributedPlaceholder:self.actualAttributedPlaceholder];
-    [self setAttributedPlaceholder:nil];
-    
     [self layoutIfNeeded];
     [_accentBorder removeConstraint:_accentBorderZeroWidth];
     [self addConstraint:_accentBorderFullWidth];
@@ -236,22 +235,19 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
         [self layoutIfNeeded];
         [_floatingLabelContainer setNeedsLayout];
     } completion:^(BOOL finished) {
+        [self setAttributedPlaceholder:_cachedAttributedPlaceholder];
         [self layoutIfNeeded];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self setNeedsDisplay];
-        });
+        [self setNeedsDisplay];
     }];
 }
 
 - (void)_textDidEndEditingNotification:(NSNotification *)notification
 {
-    [self setAttributedPlaceholder:self.savedAttributedPlaceholder];
-    [self setSavedAttributedPlaceholder:nil];
-    
     [self layoutIfNeeded];
     [self removeConstraint:_accentBorderFullWidth];
     [_accentBorder addConstraint:_accentBorderZeroWidth];
     if (self.text.length == 0) {
+        [self setAttributedPlaceholder:_cachedAttributedPlaceholder];
         [self removeConstraints:_floatingLabelTopConstraint];
         [self addConstraints:_floatingLabelBottomConstraint];
     }
