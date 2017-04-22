@@ -177,7 +177,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     _accentColor = [self defaultAccentColor];
     _secondaryColor = [self.class defaultSecondaryColor];
     
-    [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin, 0, kFloatingLabelBottomMargin, 0)];
+    [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin + kFloatingLabelBottomMargin, 0, kFloatingLabelBottomMargin, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidEndEditingNotification:) name:UITextFieldTextDidEndEditingNotification object:self];

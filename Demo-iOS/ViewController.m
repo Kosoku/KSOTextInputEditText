@@ -16,9 +16,8 @@
 #import "ViewController.h"
 #import <KSOTextInputEditText/KSOTextInputEditTextField.h>
 
-@interface ViewController ()
+@interface ViewController () <UITextFieldDelegate>
 
-@property (weak,nonatomic) IBOutlet UITextField *normalTextField;
 @property (weak,nonatomic) IBOutlet KSOTextInputEditTextField *customTextField;
 
 @end
@@ -28,6 +27,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_tapOutside:)];
+    [self.view addGestureRecognizer:tap];
 }
 
 
@@ -36,5 +38,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)_tapOutside:(UITapGestureRecognizer *)sender
+{
+    [_customTextField resignFirstResponder];
+}
 
 @end
