@@ -33,6 +33,7 @@ KSOTextInputEditTextField is a KDITextField subclass that adds a floating label 
 
   s.source_files = 'KSOTextInputEditText/**/*.{h,m}'
   s.exclude_files = 'KSOTextInputEditText/KSOTextInputEditText-Info.h'
+  s.private_header_files = 'KSOTextInputEditText/Private/*.h'
   
   # s.resource_bundles = {
   #   '${POD_NAME}' => ['${POD_NAME}/Assets/*.png']
