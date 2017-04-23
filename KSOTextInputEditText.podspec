@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'KSOTextInputEditText'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'KSOTextInputEditText is an iOS framework for Android Material Design TextInputEditText styled UITextFields.'
 
 # This description is used to generate tags and improve search results.
@@ -25,7 +25,7 @@ KSOTextInputEditTextField is a KDITextField subclass that adds a floating label 
   s.homepage         = 'https://github.com/Kosoku/KSOTextInputEditText'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'BSD', :file => 'license.txt' }
-  s.author           = { 'Jason R. Anderson' => 'jason@kosoku.com' }
+  s.author           = { 'Jason R. Anderson' => 'jason@kosoku.com', 'William Towe' => 'willbur1984@gmail.com' }
   s.source           = { :git => 'https://github.com/Kosoku/KSOTextInputEditText.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
