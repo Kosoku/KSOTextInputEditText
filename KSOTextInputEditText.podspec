@@ -23,7 +23,7 @@ KSOTextInputEditTextField is a KDITextField subclass that adds a floating label 
                        DESC
 
   s.homepage         = 'https://github.com/Kosoku/KSOTextInputEditText'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
+  s.screenshots      = ['https://github.com/Kosoku/KSOTextInputEditText/raw/master/screenshots/KSOTextInputEditText.gif']
   s.license          = { :type => 'BSD', :file => 'license.txt' }
   s.author           = { 'Jason R. Anderson' => 'jason@kosoku.com', 'William Towe' => 'willbur1984@gmail.com' }
   s.source           = { :git => 'https://github.com/Kosoku/KSOTextInputEditText.git', :tag => s.version.to_s }
