@@ -7,6 +7,8 @@
 
 KSOTextInputEditText is an iOS framework for Android Material Design TextInputEditText styled UITextFields.
 
+![screen capture](https://github.com/Kosoku/KSOTextInputEditText/raw/master/KSOTextInputEditText.gif)
+
 ### Installation
 
 You can install *KSOTextInputEditText* using [cocoapods](https://cocoapods.org/), [Carthage](https://github.com/Carthage/Carthage), or as a framework. When installing as a framework, ensure you also link to [Stanley](https://github.com/Kosoku/Stanley) and [Ditko](https://github.com/Kosoku/Ditko) as *KSOTextInputEditText* relies on them.
