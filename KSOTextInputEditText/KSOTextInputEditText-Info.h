@@ -16,6 +16,6 @@
 #ifndef KSOTextInputEditText_Info_h
 #define KSOTextInputEditText_Info_h
 
-#define KSO_BUNDLE_SHORT_VERSION_STRING 0.3.0
+#define KSO_BUNDLE_SHORT_VERSION_STRING 0.4.0
 
 #endif /* KSOTextInputEditText_Info_h */
