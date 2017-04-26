@@ -15,6 +15,8 @@
 
 #import "KSOPrivateContainerView.h"
 
+static CGRect rect = {0,0,0,0};
+
 @implementation KSOPrivateContainerView
 
 - (instancetype)initWithFrame:(CGRect)aRect
@@ -35,7 +37,6 @@
 
 - (void)layoutSubviews
 {
-    static CGRect rect = {0,0,0,0};
     [super layoutSubviews];
     
     if (CGRectEqualToRect(rect, CGRectZero)) {
@@ -43,6 +44,11 @@
     } else {
         _label.frame = rect;
     }
+}
+
+- (void)resetRect
+{
+    rect = CGRectZero;
 }
 
 - (void)_KSOPrivateContainerViewInit

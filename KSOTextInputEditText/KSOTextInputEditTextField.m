@@ -52,6 +52,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     if ((self = [super initWithFrame:aRect])) {
         [self _KSOTextInputEditTextFieldInit];
     }
+    
     return self;
 }
 
@@ -61,6 +62,16 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
         [self _KSOTextInputEditTextFieldInit];
     }
     return self;
+}
+
++ (void)initialize
+{
+    if (self == [KSOTextInputEditTextField class]) {
+        [[[self class] appearance] setAccentColor:[[[self class] appearance] tintColor]];
+        [[[self class] appearance] setSecondaryColor:[[self class] defaultSecondaryColor]];
+        [[[self class] appearance] setPrimaryColor:[[self class] defaultPrimaryColor]];
+        [[[self class] appearance] setDisabledColor:[[self class] defaultDisabledColor]];
+    }
 }
 
 - (void)prepareForInterfaceBuilder
@@ -76,8 +87,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
         [self setPlaceholder:self.placeholder];
     }
     
-    [_floatingLabel setText:self.label];
-    [_floatingLabel sizeToFit];
+    [self _updateDefaultState];
     
     [self layoutIfNeeded];
 }
@@ -101,8 +111,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 {
     [super setEnabled:enabled];
     
-    [_floatingLabel setTextColor:_disabledColor ?: [self.class defaultDisabledColor]];
-    [_border setBackgroundColor:_disabledColor ?: [self.class defaultDisabledColor]];
+    [self _updateDefaultState];
 }
 
 - (void)setPlaceholder:(NSString *)placeholder
@@ -124,6 +133,14 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 #pragma mark *** Public Methods ***
 #pragma mark Properties
+@synthesize label = _label;
+- (void)setLabel:(NSString *)label
+{
+    _label = label;
+    [self _updateDefaultState];
+     [_floatingLabelContainer resetRect];
+}
+
 @synthesize primaryColor = _primaryColor;
 - (void)setPrimaryColor:(UIColor *)primaryColor
 {
@@ -134,6 +151,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 - (void)setSecondaryColor:(UIColor *)secondaryColor
 {
     _secondaryColor = secondaryColor ?: [self.class defaultSecondaryColor];
+    [self _updateDefaultState];
 }
 
 @synthesize accentColor = _accentColor;
@@ -142,13 +160,13 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     _accentColor = accentColor ?: [self defaultAccentColor];
     [self setTintColor:accentColor];
     [self.accentBorder setBackgroundColor:_accentColor];
-    [self.floatingLabel setTextColor:_accentColor];
 }
 
 @synthesize disabledColor = _disabledColor;
 - (void)setDisabledColor:(UIColor *)disabledColor
 {
     _disabledColor = disabledColor ?: [self.class defaultDisabledColor];
+    [self _updateDefaultState];
 }
 
 #pragma mark *** Private Methods ***
@@ -174,9 +192,6 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
-    _accentColor = [self defaultAccentColor];
-    _secondaryColor = [self.class defaultSecondaryColor];
-    
     [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin + kFloatingLabelBottomMargin, 0, kFloatingLabelBottomMargin, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
@@ -193,16 +208,12 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self addConstraints:_floatingLabelBottomConstraint];
     
     [self setFloatingLabel:_floatingLabelContainer.label];
-    [_floatingLabel setBackgroundColor:UIColor.clearColor];
-    [_floatingLabel setText:_label];
-    [_floatingLabel setFont:self.font];
-    [_floatingLabel setTextColor:_secondaryColor];
-    [_floatingLabel sizeToFit];
+    [self _updateDefaultState];
     
     [self setBorder:[[UIView alloc] initWithFrame:CGRectZero]];
     [_border setTranslatesAutoresizingMaskIntoConstraints:NO];
     [_border addConstraint:[NSLayoutConstraint constraintWithItem:_border attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:kBorderHeight]];
-    [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
+    [_border setBackgroundColor:_secondaryColor];
     [self addSubview:_border];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[border]|" options:0 metrics:nil views:@{@"border":_border}]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[border]|" options:0 metrics:nil views:@{@"border":_border}]];
@@ -228,9 +239,9 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self removeConstraints:_floatingLabelBottomConstraint];
     [self addConstraints:_floatingLabelTopConstraint];
     
-    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
-        [_floatingLabel setTextColor:_accentColor ?: [self.class defaultAccentColor]];
+        [_floatingLabel setTextColor:_accentColor];
         
         [self layoutIfNeeded];
         [_floatingLabelContainer setNeedsLayout];
@@ -256,11 +267,11 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
         if (self.text.length == 0) {
             [_floatingLabel setTransform:CGAffineTransformIdentity];
             
-            [_floatingLabel setTextColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
-            [_border setBackgroundColor:_secondaryColor ?: [self.class defaultSecondaryColor]];
+            [_floatingLabel setTextColor:_secondaryColor];
+            [_border setBackgroundColor:_secondaryColor];
         } else {
-            [_floatingLabel setTextColor:_primaryColor ?: [self.class defaultPrimaryColor]];
-            [_border setBackgroundColor:_primaryColor ?: [self.class defaultPrimaryColor]];
+            [_floatingLabel setTextColor:_primaryColor];
+            [_border setBackgroundColor:_primaryColor];
         }
         
         [self layoutIfNeeded];
@@ -268,6 +279,22 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     } completion:^(BOOL finished) {
         [self layoutIfNeeded];
     }];
+}
+
+- (void)_updateDefaultState
+{
+    [_floatingLabel setBackgroundColor:UIColor.clearColor];
+    [_floatingLabel setNumberOfLines:1];
+    [_floatingLabel setFont:self.font];
+    if (self.isEnabled) {
+        [_floatingLabel setTextColor:_secondaryColor];
+        [_border setBackgroundColor:_secondaryColor];
+    } else {
+        [_floatingLabel setTextColor:_disabledColor];
+        [_border setBackgroundColor:_disabledColor];
+    }
+    [_floatingLabel setText:_label];
+    [_floatingLabel sizeToFit];
 }
 
 @end

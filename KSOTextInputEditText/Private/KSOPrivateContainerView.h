@@ -19,4 +19,6 @@
 
 @property (strong,nonatomic) UILabel *label;
 
+- (void)resetRect;
+
 @end
