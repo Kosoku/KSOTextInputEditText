@@ -67,10 +67,10 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 + (void)initialize
 {
     if (self == [KSOTextInputEditTextField class]) {
-        [[[self class] appearance] setAccentColor:[[[self class] appearance] tintColor]];
-        [[[self class] appearance] setSecondaryColor:[[self class] defaultSecondaryColor]];
-        [[[self class] appearance] setPrimaryColor:[[self class] defaultPrimaryColor]];
-        [[[self class] appearance] setDisabledColor:[[self class] defaultDisabledColor]];
+//        [[[self class] appearance] setAccentColor:[[[self class] appearance] tintColor]];
+//        [[[self class] appearance] setSecondaryColor:[[self class] defaultSecondaryColor]];
+//        [[[self class] appearance] setPrimaryColor:[[self class] defaultPrimaryColor]];
+//        [[[self class] appearance] setDisabledColor:[[self class] defaultDisabledColor]];
     }
 }
 
@@ -192,6 +192,11 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
+    _accentColor = UIColor.purpleColor;
+    _secondaryColor = [[self class] defaultSecondaryColor];
+    _primaryColor = [[self class] defaultPrimaryColor];
+    _disabledColor = [[self class] defaultDisabledColor];
+    
     [self setTextEdgeInsets:UIEdgeInsetsMake(kFloatingLabelTopMargin + kFloatingLabelBottomMargin, 0, kFloatingLabelBottomMargin, 0)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_textDidBeginEditingNotification:) name:UITextFieldTextDidBeginEditingNotification object:self];
