@@ -92,6 +92,13 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [super setBorderStyle:UITextBorderStyleNone];
 }
 
+- (void)setFont:(UIFont *)font
+{
+    [super setFont:font];
+    
+    [_floatingLabel setFont:font];
+}
+
 - (void)setTintColor:(UIColor *)tintColor
 {
     [super setTintColor:_accentColor];
