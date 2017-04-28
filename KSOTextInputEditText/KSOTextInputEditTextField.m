@@ -101,7 +101,18 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 - (void)setTintColor:(UIColor *)tintColor
 {
-    [super setTintColor:_accentColor];
+    _accentColor = tintColor;
+    [self.accentBorder setBackgroundColor:_accentColor];
+    [super setTintColor:tintColor];
+}
+
+//override to prevent parent appearance from updating self
+- (void)tintColorDidChange
+{
+    [super tintColorDidChange];
+    if (![self.tintColor isEqual:_accentColor]) {
+        [self setTintColor:_accentColor];
+    }
 }
 
 - (void)setEnabled:(BOOL)enabled
@@ -156,7 +167,6 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 {
     _accentColor = accentColor ?: [self defaultAccentColor];
     [self setTintColor:accentColor];
-    [self.accentBorder setBackgroundColor:_accentColor];
 }
 
 @synthesize disabledColor = _disabledColor;

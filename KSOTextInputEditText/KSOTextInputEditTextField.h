@@ -44,14 +44,15 @@ IB_DESIGNABLE
 @property (strong,nonatomic,null_resettable) UIColor *secondaryColor UI_APPEARANCE_SELECTOR;
 
 /**
- Set and get the accent color for the component. This is the color used for before when the TextField is selected for text input.
+ Set and get the accent color for the component. This is the color used for when the TextField is selected for text input.
+ This property replaces the tint color of its parent class. Likewise, setting the tint color on this class will update the accent color here.
  
- The default is UIColor.blueColor.
+ The default is the default tint color.
  */
 @property (strong,nonatomic,null_resettable) UIColor *accentColor UI_APPEARANCE_SELECTOR;
 
 /**
- Set and get the disabled color for the component. This is the color used for before when the TextField is disabled.
+ Set and get the disabled color for the component. This is the color used for when the TextField is disabled.
  
  The default is UIColor.lightGrayColor.
  */
