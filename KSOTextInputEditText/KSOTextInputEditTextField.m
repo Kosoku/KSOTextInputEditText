@@ -64,16 +64,6 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     return self;
 }
 
-+ (void)initialize
-{
-    if (self == [KSOTextInputEditTextField class]) {
-//        [[[self class] appearance] setAccentColor:[[[self class] appearance] tintColor]];
-//        [[[self class] appearance] setSecondaryColor:[[self class] defaultSecondaryColor]];
-//        [[[self class] appearance] setPrimaryColor:[[self class] defaultPrimaryColor]];
-//        [[[self class] appearance] setDisabledColor:[[self class] defaultDisabledColor]];
-    }
-}
-
 - (void)prepareForInterfaceBuilder
 {
     [self _KSOTextInputEditTextFieldInit];
@@ -192,7 +182,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 
 - (void)_KSOTextInputEditTextFieldInit
 {
-    _accentColor = UIColor.purpleColor;
+    _accentColor = [self defaultAccentColor];
     _secondaryColor = [[self class] defaultSecondaryColor];
     _primaryColor = [[self class] defaultPrimaryColor];
     _disabledColor = [[self class] defaultDisabledColor];
