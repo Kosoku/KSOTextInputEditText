@@ -218,6 +218,8 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self setFloatingLabelBottomConstraint:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[floatingLabel]-bottomMargin-|" options:0 metrics:@{@"bottomMargin":@(kFloatingLabelBottomMargin)} views:@{@"floatingLabel":_floatingLabelContainer}]];
     [self setFloatingLabelTopConstraint:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[floatingLabel]" options:0 metrics:nil views:@{@"floatingLabel":_floatingLabelContainer}]];
     [self addConstraints:_floatingLabelBottomConstraint];
+    [self addConstraints:_floatingLabelTopConstraint];
+    [NSLayoutConstraint deactivateConstraints:_floatingLabelTopConstraint];
     
     [self setFloatingLabel:_floatingLabelContainer.label];
     [self _updateDefaultState];
@@ -241,15 +243,18 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
     [self addSubview:_accentBorder];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_accentBorder attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_border attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[border]|" options:0 metrics:nil views:@{@"border":_accentBorder}]];
+    [self addConstraint:_accentBorderFullWidth];
+    [_accentBorderFullWidth setActive:NO];
 }
 
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
     [self layoutIfNeeded];
-    [_accentBorder removeConstraint:_accentBorderZeroWidth];
-    [self addConstraint:_accentBorderFullWidth];
-    [self removeConstraints:_floatingLabelBottomConstraint];
-    [self addConstraints:_floatingLabelTopConstraint];
+    [_accentBorderFullWidth setActive:YES];
+    [_accentBorderZeroWidth setActive:NO];
+    
+    [NSLayoutConstraint deactivateConstraints:_floatingLabelBottomConstraint];
+    [NSLayoutConstraint activateConstraints:_floatingLabelTopConstraint];
     
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         [_floatingLabel setTransform:CGAffineTransformMakeScale(kFloatingLabelScale, kFloatingLabelScale)];
@@ -267,12 +272,12 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 - (void)_textDidEndEditingNotification:(NSNotification *)notification
 {
     [self layoutIfNeeded];
-    [self removeConstraint:_accentBorderFullWidth];
-    [_accentBorder addConstraint:_accentBorderZeroWidth];
+    [_accentBorderFullWidth setActive:NO];
+    [_accentBorderZeroWidth setActive:YES];
     if (self.text.length == 0) {
         [self setAttributedPlaceholder:_cachedAttributedPlaceholder];
-        [self removeConstraints:_floatingLabelTopConstraint];
-        [self addConstraints:_floatingLabelBottomConstraint];
+        [NSLayoutConstraint activateConstraints:_floatingLabelBottomConstraint];
+        [NSLayoutConstraint deactivateConstraints:_floatingLabelTopConstraint];
     }
     
     [UIView animateWithDuration:kAnimationDuration delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
