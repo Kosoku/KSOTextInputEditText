@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  KSOTextInputEditTextField is a KDITextField subclass that adds a floating label and styling comparable to the TextInputEditText UI Component found in Android Material Design.
  https://material.io/guidelines/components/text-fields.html#text-fields-field-types
+ 
+ UITextBorderStyle and BackgroundColor are not supported. If using these properties for the parent class UIAppearanceProxy, be sure to override them for your instances of KSOTextInputEditText and set them back to UITextBorderStyleNone and UIColor.clearColor accordingly.
+ 
+ Likewise, set the font directly on the instance rather than use the appearnace proxy in order to keep the floating label and text field fonts in sync.
  */
 IB_DESIGNABLE
 @interface KSOTextInputEditTextField : KDITextField

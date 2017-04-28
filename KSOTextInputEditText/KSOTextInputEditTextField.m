@@ -96,7 +96,8 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 {
     [super setFont:font];
     
-    [_floatingLabel setFont:font];
+    [self _updateDefaultState];
+    [_floatingLabelContainer resetRect];
 }
 
 - (void)setTintColor:(UIColor *)tintColor
@@ -146,7 +147,7 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 {
     _label = label;
     [self _updateDefaultState];
-     [_floatingLabelContainer resetRect];
+    [_floatingLabelContainer resetRect];
 }
 
 @synthesize primaryColor = _primaryColor;
