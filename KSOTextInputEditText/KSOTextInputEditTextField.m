@@ -251,8 +251,8 @@ static const CGFloat kFloatingLabelBottomMargin = 8.0;
 - (void)_textDidBeginEditingNotification:(NSNotification *)notification
 {
     [self layoutIfNeeded];
-    [_accentBorderFullWidth setActive:YES];
     [_accentBorderZeroWidth setActive:NO];
+    [_accentBorderFullWidth setActive:YES];
     
     [NSLayoutConstraint deactivateConstraints:_floatingLabelBottomConstraint];
     [NSLayoutConstraint activateConstraints:_floatingLabelTopConstraint];
