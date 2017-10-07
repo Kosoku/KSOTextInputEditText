@@ -7,13 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07B404B71F889BD00097EF16 /* Ditko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BB1F889BD00097EF16 /* Ditko.framework */; };
+		07B404B81F889BD00097EF16 /* KSOFontAwesomeExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BC1F889BD00097EF16 /* KSOFontAwesomeExtensions.framework */; };
+		07B404B91F889BD00097EF16 /* Loki.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BD1F889BD00097EF16 /* Loki.framework */; };
+		07B404BA1F889BD00097EF16 /* Stanley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BE1F889BD00097EF16 /* Stanley.framework */; };
+		07B404BF1F889BDC0097EF16 /* Ditko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BB1F889BD00097EF16 /* Ditko.framework */; };
+		07B404C01F889BDC0097EF16 /* Ditko.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BB1F889BD00097EF16 /* Ditko.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		07B404C11F889BDC0097EF16 /* KSOFontAwesomeExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BC1F889BD00097EF16 /* KSOFontAwesomeExtensions.framework */; };
+		07B404C21F889BDC0097EF16 /* KSOFontAwesomeExtensions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BC1F889BD00097EF16 /* KSOFontAwesomeExtensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		07B404C31F889BDC0097EF16 /* Loki.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BD1F889BD00097EF16 /* Loki.framework */; };
+		07B404C41F889BDC0097EF16 /* Loki.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BD1F889BD00097EF16 /* Loki.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		07B404C51F889BDC0097EF16 /* Stanley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BE1F889BD00097EF16 /* Stanley.framework */; };
+		07B404C61F889BDC0097EF16 /* Stanley.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B404BE1F889BD00097EF16 /* Stanley.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7434ABB01EA1A493007679BC /* KSOTextInputEditTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 7434ABAE1EA1A493007679BC /* KSOTextInputEditTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7434ABB11EA1A493007679BC /* KSOTextInputEditTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7434ABAF1EA1A493007679BC /* KSOTextInputEditTextField.m */; };
 		7498F50D1EA6B0170072C43A /* KSOPrivateContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7498F50B1EA6B0170072C43A /* KSOPrivateContainerView.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7498F50E1EA6B0170072C43A /* KSOPrivateContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7498F50C1EA6B0170072C43A /* KSOPrivateContainerView.m */; };
 		74C462431EA051AA00A5262D /* KSOTextInputEditText.h in Headers */ = {isa = PBXBuildFile; fileRef = 74C462411EA051AA00A5262D /* KSOTextInputEditText.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		74C4624D1EA056EB00A5262D /* Ditko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4624B1EA056EB00A5262D /* Ditko.framework */; };
-		74C4624E1EA056EB00A5262D /* Stanley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4624C1EA056EB00A5262D /* Stanley.framework */; };
 		74C462571EA0573D00A5262D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C462561EA0573D00A5262D /* main.m */; };
 		74C4625A1EA0573D00A5262D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C462591EA0573D00A5262D /* AppDelegate.m */; };
 		74C4625D1EA0573D00A5262D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C4625C1EA0573D00A5262D /* ViewController.m */; };
@@ -22,10 +32,6 @@
 		74C462651EA0573D00A5262D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74C462631EA0573D00A5262D /* LaunchScreen.storyboard */; };
 		74C4626A1EA0576A00A5262D /* KSOTextInputEditText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4623E1EA051AA00A5262D /* KSOTextInputEditText.framework */; };
 		74C4626B1EA0576A00A5262D /* KSOTextInputEditText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4623E1EA051AA00A5262D /* KSOTextInputEditText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		74C462741EA0578600A5262D /* Ditko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C462731EA0578600A5262D /* Ditko.framework */; };
-		74C462751EA0578600A5262D /* Ditko.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 74C462731EA0578600A5262D /* Ditko.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		74C462771EA0578600A5262D /* Stanley.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C462761EA0578600A5262D /* Stanley.framework */; };
-		74C462781EA0578600A5262D /* Stanley.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 74C462761EA0578600A5262D /* Stanley.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,9 +51,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				74C462781EA0578600A5262D /* Stanley.framework in Embed Frameworks */,
-				74C462751EA0578600A5262D /* Ditko.framework in Embed Frameworks */,
+				07B404C01F889BDC0097EF16 /* Ditko.framework in Embed Frameworks */,
+				07B404C41F889BDC0097EF16 /* Loki.framework in Embed Frameworks */,
+				07B404C21F889BDC0097EF16 /* KSOFontAwesomeExtensions.framework in Embed Frameworks */,
 				74C4626B1EA0576A00A5262D /* KSOTextInputEditText.framework in Embed Frameworks */,
+				07B404C61F889BDC0097EF16 /* Stanley.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,6 +63,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07B404BB1F889BD00097EF16 /* Ditko.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Ditko.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		07B404BC1F889BD00097EF16 /* KSOFontAwesomeExtensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KSOFontAwesomeExtensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		07B404BD1F889BD00097EF16 /* Loki.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Loki.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		07B404BE1F889BD00097EF16 /* Stanley.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Stanley.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7434ABAE1EA1A493007679BC /* KSOTextInputEditTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSOTextInputEditTextField.h; sourceTree = "<group>"; };
 		7434ABAF1EA1A493007679BC /* KSOTextInputEditTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSOTextInputEditTextField.m; sourceTree = "<group>"; };
 		7498F50B1EA6B0170072C43A /* KSOPrivateContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSOPrivateContainerView.h; sourceTree = "<group>"; };
@@ -63,8 +75,6 @@
 		74C462411EA051AA00A5262D /* KSOTextInputEditText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KSOTextInputEditText.h; sourceTree = "<group>"; };
 		74C462421EA051AA00A5262D /* KSOTextInputEditText-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KSOTextInputEditText-iOS-Info.plist"; sourceTree = "<group>"; };
 		74C462471EA051EC00A5262D /* KSOTextInputEditText-Info.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KSOTextInputEditText-Info.h"; sourceTree = "<group>"; };
-		74C4624B1EA056EB00A5262D /* Ditko.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ditko.framework; path = "Vendor/Ditko/build/Debug-iphoneos/Ditko.framework"; sourceTree = "<group>"; };
-		74C4624C1EA056EB00A5262D /* Stanley.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Stanley.framework; path = "Vendor/Stanley/build/Debug-iphoneos/Stanley.framework"; sourceTree = "<group>"; };
 		74C462531EA0573D00A5262D /* Demo-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Demo-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		74C462561EA0573D00A5262D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		74C462581EA0573D00A5262D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,8 +85,6 @@
 		74C462611EA0573D00A5262D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74C462641EA0573D00A5262D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		74C462661EA0573D00A5262D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		74C462731EA0578600A5262D /* Ditko.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Ditko.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		74C462761EA0578600A5262D /* Stanley.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Stanley.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +92,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74C4624D1EA056EB00A5262D /* Ditko.framework in Frameworks */,
-				74C4624E1EA056EB00A5262D /* Stanley.framework in Frameworks */,
+				07B404B71F889BD00097EF16 /* Ditko.framework in Frameworks */,
+				07B404B81F889BD00097EF16 /* KSOFontAwesomeExtensions.framework in Frameworks */,
+				07B404B91F889BD00097EF16 /* Loki.framework in Frameworks */,
+				07B404BA1F889BD00097EF16 /* Stanley.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,9 +103,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74C462771EA0578600A5262D /* Stanley.framework in Frameworks */,
-				74C462741EA0578600A5262D /* Ditko.framework in Frameworks */,
+				07B404BF1F889BDC0097EF16 /* Ditko.framework in Frameworks */,
+				07B404C31F889BDC0097EF16 /* Loki.framework in Frameworks */,
+				07B404C11F889BDC0097EF16 /* KSOFontAwesomeExtensions.framework in Frameworks */,
 				74C4626A1EA0576A00A5262D /* KSOTextInputEditText.framework in Frameworks */,
+				07B404C51F889BDC0097EF16 /* Stanley.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,10 +174,10 @@
 		74C4624A1EA056EB00A5262D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				74C462731EA0578600A5262D /* Ditko.framework */,
-				74C4624B1EA056EB00A5262D /* Ditko.framework */,
-				74C462761EA0578600A5262D /* Stanley.framework */,
-				74C4624C1EA056EB00A5262D /* Stanley.framework */,
+				07B404BB1F889BD00097EF16 /* Ditko.framework */,
+				07B404BC1F889BD00097EF16 /* KSOFontAwesomeExtensions.framework */,
+				07B404BD1F889BD00097EF16 /* Loki.framework */,
+				07B404BE1F889BD00097EF16 /* Stanley.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
